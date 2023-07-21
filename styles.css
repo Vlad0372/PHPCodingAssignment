@@ -1,0 +1,449 @@
+                    /*--------------------- GENERAL STYLES -----------------------*/
+                    /*--------------------- GENERAL STYLES -----------------------*/
+                    /*--------------------- GENERAL STYLES -----------------------*/
+html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    height: fit-content;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;  
+    justify-content: center;
+    align-items: flex-start;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+}
+
+.mainContent{
+    height: fit-content;
+    width: fit-content;  
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 40px 0px 50px 0px;
+}
+
+.otherInfoContainer{
+    display: flex;
+    width: auto;
+    height: fit-content;
+}
+
+button {
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-top: 7px;
+    width: 100%;
+    padding: 10px;
+}
+
+input[type='radio'] { 
+    margin: 0px 10px 0px 10px;
+    transform : scale(1.7); 
+} 
+
+input[type='checkbox'] { 
+    transform : scale(1.7); 
+} 
+
+.newAccountCheckbox, .differentAddressCheckBox, .getNewsletterCheckBox, .acceptRegulationsCheckBox {
+    width: 100%;
+    margin: 15px 0 0 0;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.newAccountCheckbox p, .differentAddressCheckBox p, .getNewsletterCheckBox p, .acceptRegulationsCheckBox p{
+    font-size: smaller;
+    margin: 0 0 0 7px;
+}
+
+.newAccountCheckbox input[type='checkbox'], .differentAddressCheckBox input[type='checkbox'], .getNewsletterCheckBox input[type='checkbox'], .acceptRegulationsCheckBox input[type='checkbox']{
+    margin-left: 5px;
+}
+
+.userDataLabel, .deliveryMethodLabel, .paymentMethodLabel, .summaryLabel{
+    border-radius: 4px;
+    width: 100%;
+    height: fit-content;
+    background-color: rgb(168,159,143);
+    color: white;  
+    font-weight: 500; 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.userDataLabel i, .deliveryMethodLabel i, .paymentMethodLabel i, .summaryLabel i{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+                    /*--------------------- GENERAL STYLES -----------------------*/
+                    /*--------------------- GENERAL STYLES -----------------------*/
+                    /*--------------------- GENERAL STYLES -----------------------*/
+
+                    /*--------------------- USER DATA CONTAINER -----------------------*/
+                    /*--------------------- USER DATA CONTAINER -----------------------*/
+                    /*--------------------- USER DATA CONTAINER -----------------------*/
+
+.userDataContainer{
+    margin: 0px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: fit-content;
+}
+
+.loginBtn{
+    color: rgb(220,65,65);
+    background-color: white;
+    border: 2px solid rgb(220,65,65);
+}
+
+.userDataContainer .userSignin {
+    display: flex;
+    align-items: center;        
+    flex-direction: column;
+    padding: 0px;
+    margin-top: 7px;
+}
+
+.userDataContainer .userSignin a {
+    margin-top: 7px;
+    color: black;
+    text-decoration: none;
+    font-size: small;
+}
+
+.userDataContainer .userSignin p{
+    margin: 0px;
+}
+
+.userDataForm{
+    width: 100%;   
+}
+
+.userDataForm label{  
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+}
+
+.userDataForm input, .userDataForm select{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;    
+    box-sizing: border-box;
+    border-radius: 4px;    
+    border: 1px solid rgb(168,159,143);
+    width: 100%;
+    font-size: smaller;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.userDataForm select{
+    color: rgb(117,117,117);
+}
+
+.addressDetails{
+    display: flex;
+    justify-content: space-between;
+}
+
+.addressDetails input{
+    margin-top: 10px;
+}
+
+.addressDetails .postCode{
+    margin-right: 4px;
+}
+
+input[name="login"], input[name="pass"], input[name="confirmPass"] {
+    display: none;
+}
+                    /*--------------------- USER DATA CONTAINER -----------------------*/
+                    /*--------------------- USER DATA CONTAINER -----------------------*/
+                    /*--------------------- USER DATA CONTAINER -----------------------*/
+
+                    /*--------------------- DELIVERY METHOD CONTAINER -----------------------*/
+                    /*--------------------- DELIVERY METHOD CONTAINER -----------------------*/
+                    /*--------------------- DELIVERY METHOD CONTAINER -----------------------*/
+
+.deliveryAndPaymentMethodsWrapper{
+    margin: 0px 10px 10px 10px;
+    width: 250px;
+    height: fit-content;
+}  
+
+.deliveryMethodContainer{
+    width: 100%;
+    height: auto;
+}                   
+
+.deliveryMethod1, .deliveryMethod2, .deliveryMethod3{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.deliveryMethod1 div, .deliveryMethod2 div, .deliveryMethod3 div{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 10px 0px 10px 0px;
+}
+
+.deliveryMethod1 p, .deliveryMethod2 p, .deliveryMethod3 p{
+    margin: 0px 5px 0px 0px;
+    text-align: end;
+    width: 80px;
+    font-weight: bold;
+}
+
+.deliveryMethod1 label, .deliveryMethod2 label, .deliveryMethod3 label{
+    font-size: smaller;
+    margin-left:5px;
+}
+
+
+                    /*--------------------- DELIVERY METHOD CONTAINER -----------------------*/
+                    /*--------------------- DELIVERY METHOD CONTAINER -----------------------*/
+                    /*--------------------- DELIVERY METHOD CONTAINER -----------------------*/
+
+
+                    /*--------------------- PAYMENT METHOD CONTAINER -----------------------*/
+                    /*--------------------- PAYMENT METHOD CONTAINER -----------------------*/
+                    /*--------------------- PAYMENT METHOD CONTAINER -----------------------*/
+
+.paymentMethodContainer{
+    width: 100%;
+    height: auto;
+} 
+
+.discountCodeBtn{
+    color: rgb(168,159,143);
+    background-color: white;
+    border: 2px solid rgb(168,159,143);
+}
+
+.paymentMethod1, .paymentMethod2, .paymentMethod3{
+    display: none;
+    width: 100%;
+    align-items: center;
+    padding: 10px 0px 10px 0px;
+}
+
+.paymentMethod1 label, .paymentMethod2 label, .paymentMethod3 label{
+    font-size: smaller;
+    margin-left:5px;
+}
+
+                    /*--------------------- PAYMENT METHOD CONTAINER -----------------------*/
+                    /*--------------------- PAYMENT METHOD CONTAINER -----------------------*/
+                    /*--------------------- PAYMENT METHOD CONTAINER -----------------------*/
+
+                    /*--------------------- SUMMARY CONTAINER -----------------------*/
+                    /*--------------------- SUMMARY CONTAINER -----------------------*/
+                    /*--------------------- SUMMARY CONTAINER -----------------------*/
+
+.summaryContainer{
+    margin: 0px 10px 10px 10px;
+    width: 250px;
+    height: fit-content;
+}
+
+.productInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 15px;
+    width: 100%;
+    height: auto;
+}
+
+.productInfo .productImg{
+    height: 45px;
+    width: 75px;
+    background-color: gray;
+}
+
+.productInfo p{
+    font-size: small;
+    margin: 0px 5px 0px 0px;
+}
+
+.productInfo .productNameDiv{
+    display: flex;
+    flex-direction: column;
+    margin-left: -15px; 
+}
+
+.productInfo .productNameDiv .productName{
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.productInfo .productPrice{
+    font-weight: bold;
+}
+
+.priceSummWrapper{
+    padding: 10px 15px 10px 15px;
+    margin-top: 10px;
+    border-top: 1px dashed rgb(15, 143, 19);
+    border-bottom: 1px dashed rgb(15, 143, 19);
+}
+
+.priceSummWrapper div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.priceSummWrapper .priceSummTopDiv{
+  font-size: smaller;
+}
+
+.priceSummWrapper .priceSummBottomDiv{
+    margin-top: 5px;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.priceSummWrapper p{
+    margin: 0;
+}
+
+.acceptRegulationsCheckBox a{
+    text-decoration: none;  
+}
+
+.summaryContainer label{
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+}
+
+.summaryContainer textarea{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;    
+    box-sizing: border-box;
+    resize: vertical;
+    padding: 7px;
+    margin-top:10px;
+    width: 100%;
+}
+
+.confirmOrderBtn{
+    font-size: small;
+    color: white;
+    background-color: rgb(227,67,67);
+    margin-top: 10px;
+    padding: 20px 0px 20px 0px;
+    border: none;
+}
+                    /*--------------------- SUMMARY CONTAINER -----------------------*/
+                    /*--------------------- SUMMARY CONTAINER -----------------------*/
+                    /*--------------------- SUMMARY CONTAINER -----------------------*/
+
+                    /*--------------------- ORDER COMPLETE CONTAINER -----------------------*/
+                    /*--------------------- ORDER COMPLETE CONTAINER -----------------------*/
+                    /*--------------------- ORDER COMPLETE CONTAINER -----------------------*/
+
+.orderCompleteInfo{
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 60px;
+    width: 350px;
+    height: 100px;
+    /* border: 2px solid rgb(15, 143, 19); */
+    border-radius: 4px;
+    background-color: rgb(160, 234, 163);
+}  
+.orderCompleteInfo p{
+    margin: 0px;
+    font-size: 24px;
+    font-weight: lighter;
+}       
+.orderCompleteInfo .orderNumber{
+    font-size: large;
+    font-weight: bold;
+}          
+                    /*--------------------- ORDER COMPLETE CONTAINER -----------------------*/
+                    /*--------------------- ORDER COMPLETE CONTAINER -----------------------*/
+                    /*--------------------- ORDER COMPLETE CONTAINER -----------------------*/
+
+                    /*--------------------- VALIDATION POPUP -----------------------*/
+                    /*--------------------- VALIDATION POPUP -----------------------*/
+                    /*--------------------- VALIDATION POPUP -----------------------*/
+.validationInfo {
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    min-width: 200px;
+    max-width: 250px;
+    min-height: 30px;
+    max-height: fit-content;
+    color: white;
+    background-color: rgb(227,67,67);
+    border-radius: 4px;
+    margin: 10px 0px 0px 0px;
+    padding: 10px;
+    /* opacity: 0; */
+}
+.validationInfo p{
+    margin: 0;
+    font-weight: normal;
+    font-size: medium;
+}
+
+                    /*--------------------- VALIDATION POPUP -----------------------*/
+                    /*--------------------- VALIDATION POPUP -----------------------*/
+                    /*--------------------- VALIDATION POPUP -----------------------*/
+
+                    /*--------------------- MEDIA -----------------------*/
+                    /*--------------------- MEDIA -----------------------*/
+                    /*--------------------- MEDIA -----------------------*/
+
+@media (max-width: 850px) {
+    .mainContent{
+        margin: 20px 5px 20px 5px;
+    }
+    .otherInfoContainer{
+        flex-direction: column;
+    }
+  }
+
+@media (max-width: 550px) {
+    .mainContent{
+        flex-direction: column;
+        justify-content: flex-start; 
+        align-items: center;
+        margin: 5px 5px 5px 5px;
+    }   
+    .orderCompleteInfo{      
+        margin-top: 20px;
+        width: 250px;
+        height: 80px;     
+    }  
+    .orderCompleteInfo p{
+        font-size: 18px;
+    }       
+    .orderCompleteInfo .orderNumber{
+        font-size: medium;
+    }       
+  }
+
+                    /*--------------------- MEDIA -----------------------*/
+                    /*--------------------- MEDIA -----------------------*/
+                    /*--------------------- MEDIA -----------------------*/
