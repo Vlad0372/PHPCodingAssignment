@@ -50,7 +50,7 @@ input[type='checkbox'] {
     transform : scale(1.7); 
 } 
 
-.newAccountCheckbox, .differentAddressCheckBox, .getNewsletterCheckBox, .acceptRegulationsCheckBox {
+.newAccountCheckBox, .differentAddressCheckBox, .getNewsletterCheckBox, .acceptRegulationsCheckBox {
     width: 100%;
     margin: 15px 0 0 0;
     display: flex;
@@ -58,12 +58,12 @@ input[type='checkbox'] {
     
 }
 
-.newAccountCheckbox p, .differentAddressCheckBox p, .getNewsletterCheckBox p, .acceptRegulationsCheckBox p{
+.newAccountCheckBox p, .differentAddressCheckBox p, .getNewsletterCheckBox p, .acceptRegulationsCheckBox p{
     font-size: smaller;
     margin: 0 0 0 7px;
 }
 
-.newAccountCheckbox input[type='checkbox'], .differentAddressCheckBox input[type='checkbox'], .getNewsletterCheckBox input[type='checkbox'], .acceptRegulationsCheckBox input[type='checkbox']{
+.newAccountCheckBox input[type='checkbox'], .differentAddressCheckBox input[type='checkbox'], .getNewsletterCheckBox input[type='checkbox'], .acceptRegulationsCheckBox input[type='checkbox']{
     margin-left: 5px;
 }
 
@@ -385,7 +385,8 @@ input[name="login"], input[name="pass"], input[name="confirmPass"] {
                     /*--------------------- VALIDATION POPUP -----------------------*/
                     /*--------------------- VALIDATION POPUP -----------------------*/
                     /*--------------------- VALIDATION POPUP -----------------------*/
-.validationInfo {
+.popUpInfo {
+    z-index: 11;
     position: fixed;
     display: none;
     justify-content: center;
@@ -395,13 +396,13 @@ input[name="login"], input[name="pass"], input[name="confirmPass"] {
     min-height: 30px;
     max-height: fit-content;
     color: white;
-    background-color: rgb(227,67,67);
+    background-color: rgb(95, 95, 95);
     border-radius: 4px;
     margin: 10px 0px 0px 0px;
     padding: 10px;
     /* opacity: 0; */
 }
-.validationInfo p{
+.popUpInfo p{
     margin: 0;
     font-weight: normal;
     font-size: medium;
@@ -447,3 +448,54 @@ input[name="login"], input[name="pass"], input[name="confirmPass"] {
                     /*--------------------- MEDIA -----------------------*/
                     /*--------------------- MEDIA -----------------------*/
                     /*--------------------- MEDIA -----------------------*/
+
+
+                    
+.loginBackgroundContainer {
+    top: 0;
+    left: 0;
+    /* visibility: hidden; */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #1f1d1dd1;
+    z-index: 10;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    /* opacity: 0.0; */
+}
+
+.loginContainer{
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: fit-content;
+    background-color: white;
+}
+.loginContainer button{
+    margin-top:0px;
+}
+.userLoginForm{
+    width: 100%;   
+}
+
+.userLoginForm label{  
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+}
+
+.userLoginForm input{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;    
+    box-sizing: border-box;
+    border-radius: 4px;    
+    border: 1px solid rgb(168,159,143);
+    width: 100%;
+    font-size: smaller;
+    padding: 10px;
+    margin-bottom: 10px;
+} 

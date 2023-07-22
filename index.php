@@ -17,7 +17,7 @@
                 <p>1. TWOJE DANE</p>
             </div>
 
-            <div>
+            <div onclick="openLoginContainer()">
                 <button class="loginBtn" id="loginBtn">Logowanie</button>
             </div>
 
@@ -25,7 +25,7 @@
                 <p><a href="#">Masz już konto? Kliknij żeby się zalogować.</a></p>
             </div> 
 
-            <div class="newAccountCheckbox">
+            <div class="newAccountCheckBox">
                 <input type="checkbox" id="newAccountCheckBox" name="newAccountCheckBox" onclick="showHideLoginFields()">
                 <p>Stwórz nowe konto</p>
             </div>   
@@ -198,8 +198,24 @@
         <p class="orderNumber">Twój numer zamówienia:</p>
     </div>
 
-    <div class="validationInfo">
-        <p class="errorMessage">Error message!</p>
+    <div class="popUpInfo">
+        <p class="popUpMessage">Important message!</p>
+    </div>
+
+    <div class="loginBackgroundContainer" onclick="closeLoginContainer()">
+        <div class="loginContainer" onclick="stopPropagationBackground(event)">                
+                <form class="userLoginForm" id="userLoginForm" mehod="POST" action="login.php">
+                    <label for="userlogin">Login:</label>
+                    <input type="text" id="userlogin" name="userlogin" placeholder="Login *">
+
+                    <label for="userpass">Hasło:</label>
+                    <input type="password" id="userpass" name="userpass" placeholder="Hasło *">
+                </form>   
+
+                <div>
+                    <button class="loginBtn" type="submit" form="userLoginForm">Logowanie</button>
+                </div>                   
+        </div>
     </div>
 </body>
 </html>
