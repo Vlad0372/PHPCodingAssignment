@@ -262,37 +262,53 @@ input[name="login"], input[name="pass"], input[name="confirmPass"] {
 
 .productInfo{
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: flex-start;
     margin-top: 15px;
     width: 100%;
     height: auto;
+    /* background-color: aqua; */
 }
 
 .productInfo .productImg{
     height: 45px;
-    width: 75px;
+    width: 28%;
     background-color: gray;
+}
+
+.productInfo .productImg img{
+    height: 100%;
+    width: 100%;
 }
 
 .productInfo p{
     font-size: small;
-    margin: 0px 5px 0px 0px;
+    margin: 0px;
 }
 
-.productInfo .productNameDiv{
+.productInfo .productDetails{
     display: flex;
     flex-direction: column;
-    margin-left: -15px; 
+    /* background-color: blanchedalmond; */
+    width: 40%;
+    padding: 0% 2% 0% 2%;   
 }
 
-.productInfo .productNameDiv .productName{
+.productInfo .productDetails .productName{
     margin-bottom: 5px;
     font-weight: bold;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    white-space: nowrap;
 }
 
 .productInfo .productPrice{
+    text-align: end;
+    /* background-color: blueviolet; */
+    width: 26%;
     font-weight: bold;
+    padding-right: 2%;
+    word-wrap: break-word;
 }
 
 .priceSummWrapper{

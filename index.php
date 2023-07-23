@@ -143,21 +143,6 @@
                     <i class="fa-solid fa-clipboard-list"></i>
                     <p>4. PODSUMOWANIE</p>
                 </div>
-                
-                <div class="productInfo">
-                    <div class="productImg">
-
-                    </div>
-
-                    <div class="productNameDiv">
-                        <p class="productName">Testowy produkt</p>
-                        <p>Ilość: 1</p>
-                    </div>
-                
-                    <div>
-                        <p class="productPrice">115,00 zł</p>
-                    </div>
-                </div>
 
                 <div class="priceSummWrapper">
                     <div class="priceSummTopDiv">

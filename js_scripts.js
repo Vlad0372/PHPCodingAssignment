@@ -1,5 +1,7 @@
 
 $(document).ready(function () {
+    loadItems();
+
     $("#userDataForm").submit(function (event) {
         submitUserDataForm(event);
     });
@@ -8,6 +10,39 @@ $(document).ready(function () {
         submitUserLoginForm(event);
     });
 })
+
+function loadItems(){
+    $.get("load_items.php",
+    { 
+        "item_ids[]": ["2", "3"] 
+    },
+    function(data)
+    {
+        const returnedData = JSON.parse(data);
+    
+        //$(".productImg img").css("width", "40%");//.attr('src', 'new_image.jpg');
+        //alert("Data Loaded: " + returnedData);
+        //=============
+        // $(returnedData.item_ids).each(function(i, e) {
+        //     // $(".box-cart-products").append(
+        //     //   '<div class="productInfo"> </div>'
+        //     // )
+        //     //alert("Data Loaded: " + data);
+        //     //$("<p>Test " + returnedData.item_ids[i] + "</p>").insertAfter(".summaryLabel");
+        //     $(
+        //     '<div class="productInfo"><div class="productImg">'+
+        //     '<img src="item_images/item_1.png" alt="item"></div>'+
+        //     '<div class="productDetails"><p class="productName">Testowy produkt</p> <p>Ilość: 1</p></div>'+
+        //     '<div class="productPrice"><p>115,00 zł</p></div></div>'
+        //     ).insertAfter(".summaryLabel");
+        //   });
+        //=================
+          //$("<p>Test</p>").insertAfter(".summaryLabel");
+          
+        alert("Data Loaded: " + data);
+        //alert("Data Loaded: " + returnedData.item_ids);
+    });
+}
 
 function submitUserDataForm(event){
     event.preventDefault();
