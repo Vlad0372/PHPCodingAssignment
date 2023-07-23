@@ -187,28 +187,28 @@ input[name="login"], input[name="pass"], input[name="confirmPass"] {
     height: auto;
 }                   
 
-.deliveryMethod1, .deliveryMethod2, .deliveryMethod3{
+.deliveryMethod{
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-between;
 }
 
-.deliveryMethod1 div, .deliveryMethod2 div, .deliveryMethod3 div{
+.deliveryMethod div{
     display: flex;
     width: 100%;
     align-items: center;
     padding: 10px 0px 10px 0px;
 }
 
-.deliveryMethod1 p, .deliveryMethod2 p, .deliveryMethod3 p{
+.deliveryMethod p{
     margin: 0px 5px 0px 0px;
     text-align: end;
     width: 80px;
     font-weight: bold;
 }
 
-.deliveryMethod1 label, .deliveryMethod2 label, .deliveryMethod3 label{
+.deliveryMethod label{
     font-size: smaller;
     margin-left:5px;
 }
@@ -311,29 +311,29 @@ input[name="login"], input[name="pass"], input[name="confirmPass"] {
     word-wrap: break-word;
 }
 
-.priceSummWrapper{
+.orderPriceContainer{
     padding: 10px 15px 10px 15px;
     margin-top: 10px;
     border-top: 1px dashed rgb(15, 143, 19);
     border-bottom: 1px dashed rgb(15, 143, 19);
 }
 
-.priceSummWrapper div{
+.orderPriceContainer div{
     display: flex;
     justify-content: space-between;
 }
 
-.priceSummWrapper .priceSummTopDiv{
+.orderPriceContainer .partialPrice{
   font-size: smaller;
 }
 
-.priceSummWrapper .priceSummBottomDiv{
+.orderPriceContainer .totalPrice{
     margin-top: 5px;
     font-size: larger;
     font-weight: bold;
 }
 
-.priceSummWrapper p{
+.orderPriceContainer p{
     margin: 0;
 }
 

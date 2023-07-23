@@ -80,7 +80,7 @@
                         <p>2. METODA DOSTAWY</p>
                     </div>
 
-                    <div class="deliveryMethod1">
+                    <!-- <div class="deliveryMethod">
                         <div>
                             <input type="radio" id="inPostDelivery" name="deliveryMethodRadio" value="1" form="userDataForm" onclick="matchPaymentMethods('1')">
                             <img src="images/deliveryMethod1.png" alt="InPost" width="50" height="30">                           
@@ -89,7 +89,7 @@
                         <p>10,99 zł</p>
                     </div>
 
-                    <div class="deliveryMethod2">
+                    <div class="deliveryMethod">
                         <div>
                             <input type="radio" id="courierDPD" name="deliveryMethodRadio" value="2" form="userDataForm" onclick="matchPaymentMethods('2')">
                             <img src="images/deliveryMethod2.png" alt="DPD" width="50" height="30">                           
@@ -98,15 +98,15 @@
                         <p>18,00 zł</p>
                     </div>
 
-                    <div class="deliveryMethod3">
+                    <div class="deliveryMethod">
                         <div>
                             <input type="radio" id="courierDPDCollecting" name="deliveryMethodRadio" value="3" form="userDataForm" onclick="matchPaymentMethods('3')">
                             <img src="images/deliveryMethod3.png" alt="DPD" width="50" height="30">                           
                             <label for="courierDPDCollecting">Kurier DPD pobranie</label>
                         </div>
                         <p>22,00 zł</p>
-                    </div>
-                </div>
+                    </div> -->
+                </div> 
                 
                 <div class="paymentMethodContainer">   
                     <div class="paymentMethodLabel">
@@ -144,15 +144,15 @@
                     <p>4. PODSUMOWANIE</p>
                 </div>
 
-                <div class="priceSummWrapper">
-                    <div class="priceSummTopDiv">
+                <div class="orderPriceContainer">
+                    <div class="partialPrice">
                         <p>Suma częściowa</p>
-                        <p>115,00 zł</p>
+                        <p>0,00 zł</p>
                     </div>
 
-                    <div class="priceSummBottomDiv">
+                    <div class="totalPrice">
                         <p>Łącznie</p>
-                        <p>115,00 zł</p>
+                        <p>0,00 zł</p>
                     </div>
                 </div>
 

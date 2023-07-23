@@ -1,20 +1,38 @@
 <?php
 
-$data=[];
-$data['msg'] = "";
+// $data=[];
+// $data['msg'] = "";
 
-//$data["item_ids"] = $_GET["item_ids"];//"got and returned!";
+// $data["items"] = $_GET["items"];//"got and returned!";
+
+$items = json_decode($_GET["items"]);
+
+$data["item_id_list"] = array_column($items, 'id');
+$data["item_amount_list"] = array_column($items, 'amount');
+
 if($_SERVER["REQUEST_METHOD"] == "GET") {
+    $ids_str = implode(',', $data["item_id_list"]);
+
     $conn = mysqli_connect("localhost", "root", "", "smartbees_zadanie_db");
 
-    $sql = "select * from user where login = '".$_POST['login']."' and password = '".$_POST['pass']."'";
+    $sql = "select * from item where id in ($ids_str)";
     $result = mysqli_query($conn, $sql);
+    $records = mysqli_fetch_all($result, MYSQLI_ASSOC);
+   
+    
+    $data["item_name_list"] = array_column($records, 'name');
+    $data["item_file_name_list"] = array_column($records, 'file_name');
+    $data["item_price_list"] = array_column($records, 'price');
 }
 
-$ids_str = implode(',', $_GET["item_ids"]);
 
-//$data = $_GET["item_ids"][0]. " has been received!";
+//$data=$_GET["items['id']"];
 
-echo(json_encode($ids_str));
+//$data = $_GET["item_id_list"][0]. " has been received!";
+
+
+//echo(json_encode($data["item_id_list"]));
+echo(json_encode($data));
+//echo(json_encode($ids_str));
 
 ?>

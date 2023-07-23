@@ -1,5 +1,9 @@
+let orderPrice = 0.0;
+let deliveryPrices = [];
+let deliveryMethod = 0;
 
 $(document).ready(function () {
+    loadDeliveryMethods();
     loadItems();
 
     $("#userDataForm").submit(function (event) {
@@ -11,38 +15,95 @@ $(document).ready(function () {
     });
 })
 
-function loadItems(){
-    $.get("load_items.php",
+function loadDeliveryMethods(){
+    const deliveryMethods = [
+        { id: 1 },
+        { id: 2 },
+        { id: 3 }
+    ];
+
+    $.get("load_delivery_methods.php",
     { 
-        "item_ids[]": ["2", "3"] 
+        "delivery_methods":JSON.stringify(deliveryMethods)
     },
     function(data)
     {
         const returnedData = JSON.parse(data);
-    
-        //$(".productImg img").css("width", "40%");//.attr('src', 'new_image.jpg');
-        //alert("Data Loaded: " + returnedData);
-        //=============
-        // $(returnedData.item_ids).each(function(i, e) {
-        //     // $(".box-cart-products").append(
-        //     //   '<div class="productInfo"> </div>'
-        //     // )
-        //     //alert("Data Loaded: " + data);
-        //     //$("<p>Test " + returnedData.item_ids[i] + "</p>").insertAfter(".summaryLabel");
-        //     $(
-        //     '<div class="productInfo"><div class="productImg">'+
-        //     '<img src="item_images/item_1.png" alt="item"></div>'+
-        //     '<div class="productDetails"><p class="productName">Testowy produkt</p> <p>Ilość: 1</p></div>'+
-        //     '<div class="productPrice"><p>115,00 zł</p></div></div>'
-        //     ).insertAfter(".summaryLabel");
-        //   });
-        //=================
-          //$("<p>Test</p>").insertAfter(".summaryLabel");
-          
-        alert("Data Loaded: " + data);
-        //alert("Data Loaded: " + returnedData.item_ids);
+
+        $(returnedData.delivery_method_id_list).each(function(i, e) {
+            var j = returnedData.delivery_method_id_list.length - 1 - i;
+
+            $(
+                '<div class="deliveryMethod"><div>'+
+                '<input type="radio" id="deliveryMethod' + returnedData.delivery_method_id_list[j] + 
+                '" name="deliveryMethodRadio" value="' + returnedData.delivery_method_id_list[j] + 
+                '" form="userDataForm" onclick="matchPaymentMethods(' + returnedData.delivery_method_id_list[j] + 
+                ')"><img src="delivery_method_images/' + returnedData.delivery_method_file_name_list[j] + 
+                '" alt="Metoda dostawy" width="50" height="30"><label for="deliveryMethod' + 
+                returnedData.delivery_method_id_list[j] + '">' + returnedData.delivery_method_name_list[j] + 
+                '</label></div><p>' + returnedData.delivery_method_price_list[j] + ' zł</p></div>'
+
+            ).insertAfter(".deliveryMethodLabel");
+
+            deliveryPrices[j] = returnedData.delivery_method_price_list[j];
+        });    
     });
 }
+
+function loadItems(){
+    const items = [
+        { id: 1, amount: 1 },
+        { id: 2, amount: 2 },
+        { id: 3, amount: 5 }
+      ];
+
+    $.get("load_items.php",
+    { 
+        "items":JSON.stringify(items)
+    },
+    function(data)
+    {
+        const returnedData = JSON.parse(data);
+
+        $(returnedData.item_id_list).each(function(i, e) {
+            $(
+                '<div class="productInfo"><div class="productImg">'+
+                '<img src="item_images/' + returnedData.item_file_name_list[i] + '" alt="item"></div>'+
+                '<div class="productDetails"><p class="productName">' + returnedData.item_name_list[i] +    
+                '</p> <p>Ilość: ' + returnedData.item_amount_list[i] + '</p></div>'+
+                '<div class="productPrice"><p>' + returnedData.item_price_list[i] + ' zł</p></div></div>'
+            ).insertBefore(".orderPriceContainer");
+        });    
+        
+        let priceSumm = 0.0;
+
+        returnedData.item_price_list.forEach(
+            itemPrice => priceSumm += parseFloat(itemPrice)
+        );
+
+        changeOrderPrice(priceSumm);
+    });
+}
+
+function changeOrderPrice(value){
+    orderPrice += parseFloat(value);
+
+    $(".partialPrice").find("p").eq(1).text(orderPrice + " zł");
+    $(".totalPrice").find("p").eq(1).text(orderPrice + " zł");
+}
+
+// function setOrderPrice(items){
+//     let priceSumm = 0.0;
+
+//     items.item_price_list.forEach(
+//         itemPrice => priceSumm += parseFloat(itemPrice)
+//     );
+    
+//     orderPrice += priceSumm;
+
+//     $(".partialPrice").find("p").eq(1).text(orderPrice + " zł");
+//     $(".totalPrice").find("p").eq(1).text(orderPrice + " zł");
+// }
 
 function submitUserDataForm(event){
     event.preventDefault();
@@ -277,27 +338,39 @@ function clearAddressData(){
 
 function matchPaymentMethods(callerMethod){
 
-    let paymentMethod1 = document.getElementsByClassName("paymentMethod1")[0];
-    let paymentMethod2 = document.getElementsByClassName("paymentMethod2")[0];
-    let paymentMethod3 = document.getElementsByClassName("paymentMethod3")[0];
+    let paymentMethod1 = $(".paymentMethod1").first();
+    let paymentMethod2 = $(".paymentMethod2").first();
+    let paymentMethod3 = $(".paymentMethod3").first();
+
+    if(deliveryMethod != 0){
+        changeOrderPrice(-deliveryPrices[deliveryMethod - 1]);
+    }
 
     switch(callerMethod){
-        case "1":
-            paymentMethod1.style.display = "flex";
-            paymentMethod2.style.display = "none";
-            paymentMethod3.style.display = "flex";
+        case 1:
+            paymentMethod1.css("display", "flex");
+            paymentMethod2.css("display", "none");
+            paymentMethod3.css("display", "flex");
+
+            deliveryMethod = 1;
             break;
-        case "2":
-            paymentMethod1.style.display = "none";
-            paymentMethod2.style.display = "flex";
-            paymentMethod3.style.display = "none";
+        case 2:
+            paymentMethod1.css("display", "none");
+            paymentMethod2.css("display", "flex");
+            paymentMethod3.css("display", "none");
+
+            deliveryMethod = 2;
             break;
-        case "3":
-            paymentMethod1.style.display = "flex";
-            paymentMethod2.style.display = "flex";
-            paymentMethod3.style.display = "none";
+        case 3:
+            paymentMethod1.css("display", "flex");
+            paymentMethod2.css("display", "flex");
+            paymentMethod3.css("display", "none");
+
+            deliveryMethod = 3;
             break;
     }
+
+    changeOrderPrice(deliveryPrices[deliveryMethod - 1]);
 }
 
 function openLoginContainer(){
@@ -306,15 +379,8 @@ function openLoginContainer(){
         .hide()
         .fadeIn('normal');
 }
+
 function closeLoginContainer(){
-    // $('.validationInfo')
-    //     .css("display", "flex")
-    //     .hide()
-    //     .fadeIn('normal')
-    //     .delay(1500)
-    //     .fadeOut();
     $('.loginBackgroundContainer')
         .fadeOut('normal');
-        // .delay(1500)
-        // .css('visibility', 'hidden');
 }
