@@ -1,6 +1,11 @@
 let orderPrice = 0.0;
 let deliveryPrices = [];
 let deliveryMethod = 0;
+const items = [
+    { id: 1, amount: 1 },
+    { id: 2, amount: 2 },
+    { id: 3, amount: 5 }
+  ];
 
 $(document).ready(function () {
     loadDeliveryMethods();
@@ -14,6 +19,63 @@ $(document).ready(function () {
         submitUserLoginForm(event);
     });
 })
+
+function toggleDiscountCodeContainer(){
+    $(".activateDiscountCodeBtn").toggle();
+    $("#discountCode").toggle();
+}
+
+function activateDiscountCode(){
+
+    $.get("check_discount_codes.php",
+    { 
+        "code":$("#discountCode").val()
+    },
+    function(data)
+    {
+        const returnedData = JSON.parse(data);
+
+        if(returnedData.is_active == "true"){
+            $("#discountCode").prop('disabled', true);
+            let button = $(".activateDiscountCodeBtn");
+    
+            button.css("color", "rgb(168,159,143)");
+            button.css("border-color", "rgb(168,159,143)");
+            button.text("Kod aktywowany");
+            button.prop( "onclick", null );
+                
+            let discount = 0;
+
+            //jeśli jest wybrany sposób dostawy - cena dostawy nie podlega zniżce
+            if(deliveryMethod == 0){
+                discount = (orderPrice  * (parseInt(returnedData.discount_percentage) / 100));
+
+                changeOrderPrice(-discount);
+            }
+            else{
+                changeOrderPrice(-deliveryPrices[deliveryMethod - 1]);
+                
+                discount = (orderPrice  * (parseInt(returnedData.discount_percentage) / 100));            
+                
+                changeOrderPrice(-discount);
+                changeOrderPrice(deliveryPrices[deliveryMethod - 1]);
+            }
+            
+            let discountLabel = $("<p></p>");
+            discountLabel.css("margin-top", "5px");
+            discountLabel.css("text-align", "right");
+            discountLabel.css("color", "red");
+            discountLabel.text("Z rabatem  " + returnedData.discount_percentage + "%");
+            discountLabel.insertAfter(".totalPrice");
+
+            showSuccessMessage("Rabat został naliczony!");
+        }
+        else{
+            showErrorMessage("Wprowadzony kod jest nieaktywny!");
+        }
+
+    });
+}
 
 function loadDeliveryMethods(){
     const deliveryMethods = [
@@ -51,11 +113,6 @@ function loadDeliveryMethods(){
 }
 
 function loadItems(){
-    const items = [
-        { id: 1, amount: 1 },
-        { id: 2, amount: 2 },
-        { id: 3, amount: 5 }
-      ];
 
     $.get("load_items.php",
     { 
@@ -77,9 +134,9 @@ function loadItems(){
         
         let priceSumm = 0.0;
 
-        returnedData.item_price_list.forEach(
-            itemPrice => priceSumm += parseFloat(itemPrice)
-        );
+        for(let i = 0; i < returnedData.item_id_list.length; i++){
+            priceSumm += (parseFloat(returnedData.item_price_list[i]) * parseInt(returnedData.item_amount_list[i]));
+        }
 
         changeOrderPrice(priceSumm);
     });
@@ -87,23 +144,11 @@ function loadItems(){
 
 function changeOrderPrice(value){
     orderPrice += parseFloat(value);
+    orderPrice = Number(orderPrice.toFixed(2));
 
     $(".partialPrice").find("p").eq(1).text(orderPrice + " zł");
     $(".totalPrice").find("p").eq(1).text(orderPrice + " zł");
 }
-
-// function setOrderPrice(items){
-//     let priceSumm = 0.0;
-
-//     items.item_price_list.forEach(
-//         itemPrice => priceSumm += parseFloat(itemPrice)
-//     );
-    
-//     orderPrice += priceSumm;
-
-//     $(".partialPrice").find("p").eq(1).text(orderPrice + " zł");
-//     $(".totalPrice").find("p").eq(1).text(orderPrice + " zł");
-// }
 
 function submitUserDataForm(event){
     event.preventDefault();
@@ -113,7 +158,7 @@ function submitUserDataForm(event){
     if ($('input:checkbox[name=newAccountCheckBox]').is(':checked')) {
         createnewaccount = true;
     }
-    
+
     let login = $("#login").val();
     let pass = $("#pass").val();
     let confirmpass = $("#confirmPass").val();
@@ -130,6 +175,7 @@ function submitUserDataForm(event){
     let comment = $("#orderComment").val();
     let getnewsletter = false;
     let acceptregulations = false;
+    let discountcode = $("#discountCode").val();
 
     if ($('input:checkbox[name=getNewsletterCheckBox]').is(':checked')) {
         getnewsletter = true;
@@ -210,12 +256,14 @@ function submitUserDataForm(event){
                 comment:comment,
                 getnewsletter:getnewsletter,     
                 acceptregulations:acceptregulations,
+                discountcode:discountcode,
+                items:items
             }, 
             function(data, status){
-                //console.log(data);
+                console.log(data);
                 const returnedData = JSON.parse(data);
 
-                //console.log(returnedData);
+                console.log(returnedData);
                 if(returnedData.isValidationSucceed){
                     showOrderInfo(returnedData.orderNumber);
                 }

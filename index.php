@@ -79,33 +79,6 @@
                         <i class="fa-solid fa-truck-fast"></i>
                         <p>2. METODA DOSTAWY</p>
                     </div>
-
-                    <!-- <div class="deliveryMethod">
-                        <div>
-                            <input type="radio" id="inPostDelivery" name="deliveryMethodRadio" value="1" form="userDataForm" onclick="matchPaymentMethods('1')">
-                            <img src="images/deliveryMethod1.png" alt="InPost" width="50" height="30">                           
-                            <label for="inPostDelivery">Paczkomaty 24/7</label>
-                        </div>
-                        <p>10,99 zł</p>
-                    </div>
-
-                    <div class="deliveryMethod">
-                        <div>
-                            <input type="radio" id="courierDPD" name="deliveryMethodRadio" value="2" form="userDataForm" onclick="matchPaymentMethods('2')">
-                            <img src="images/deliveryMethod2.png" alt="DPD" width="50" height="30">                           
-                            <label for="curierDPD">Kurier DPD</label>
-                        </div>
-                        <p>18,00 zł</p>
-                    </div>
-
-                    <div class="deliveryMethod">
-                        <div>
-                            <input type="radio" id="courierDPDCollecting" name="deliveryMethodRadio" value="3" form="userDataForm" onclick="matchPaymentMethods('3')">
-                            <img src="images/deliveryMethod3.png" alt="DPD" width="50" height="30">                           
-                            <label for="courierDPDCollecting">Kurier DPD pobranie</label>
-                        </div>
-                        <p>22,00 zł</p>
-                    </div> -->
                 </div> 
                 
                 <div class="paymentMethodContainer">   
@@ -116,24 +89,33 @@
 
                     <div class="paymentMethod1">                        
                         <input type="radio" id="payU" name="paymentMethodRadio" value="1" form="userDataForm">
-                        <img src="images/paymentMethod1.png" alt="PayU" width="50" height="30">                           
+                        <img src="payment_method_images/method_1.png" alt="PayU" width="50" height="30">                           
                         <label for="payU">PayU</label>                      
                     </div>
 
                     <div class="paymentMethod2">                        
                         <input type="radio" id="onDelivery" name="paymentMethodRadio" value="2" form="userDataForm">
-                        <img src="images/paymentMethod2.png" alt="Płatność przy odbiorze" width="50" height="30">                           
+                        <img src="payment_method_images/method_2.png" alt="Płatność przy odbiorze" width="50" height="30">                           
                         <label for="onDelivery">Płatność przy odbiorze</label>                      
                     </div>
 
                     <div class="paymentMethod3">                        
                         <input type="radio" id="bankTransfer" name="paymentMethodRadio" value="3" form="userDataForm">
-                        <img src="images/paymentMethod3.png" alt="Przelew bankowy" width="50" height="30">                           
+                        <img src="payment_method_images/method_3.png" alt="Przelew bankowy" width="50" height="30">                           
                         <label for="bankTransfer">Przelew bankowy - zwykły</label>                      
                     </div>
 
                     <div>
-                        <button class="discountCodeBtn">Dodaj kod rabatowy</button>
+                        <button class="discountCodeBtn" onclick="toggleDiscountCodeContainer()">Dodaj kod rabatowy</button>
+                    </div>
+
+                    <div class="discountCodeContainer">
+                        <label for="discountCode">Discount code:</label>
+                        <input type="text" id="discountCode" name="discountCode" placeholder="Wprowadź kod">
+                    </div>
+
+                    <div>
+                        <button class="activateDiscountCodeBtn" onclick="activateDiscountCode()">Aktywuj</button>
                     </div>
                 </div>
             </div>

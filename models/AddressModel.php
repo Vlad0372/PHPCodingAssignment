@@ -13,6 +13,15 @@ class AddressModel {
         $this->post_code = $post_code;
         $this->city = $city;
     }
+    function insertIntoDB($conn){
+        $sql = "insert into address (country, street, post_code, city)".
+        " values ('".$this->country."','".$this->street.
+        "','".$this->post_code."','".$this->city."')";  
+
+        $result = mysqli_query($conn, $sql);
+
+        return $result;
+    }
     function getId() {
         return $this->id;
     }

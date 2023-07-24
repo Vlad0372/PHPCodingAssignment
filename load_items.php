@@ -1,10 +1,5 @@
 <?php
 
-// $data=[];
-// $data['msg'] = "";
-
-// $data["items"] = $_GET["items"];//"got and returned!";
-
 $items = json_decode($_GET["items"]);
 
 $data["item_id_list"] = array_column($items, 'id');
@@ -25,14 +20,6 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
     $data["item_price_list"] = array_column($records, 'price');
 }
 
-
-//$data=$_GET["items['id']"];
-
-//$data = $_GET["item_id_list"][0]. " has been received!";
-
-
-//echo(json_encode($data["item_id_list"]));
 echo(json_encode($data));
-//echo(json_encode($ids_str));
 
 ?>

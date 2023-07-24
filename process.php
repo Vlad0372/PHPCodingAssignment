@@ -6,53 +6,87 @@ include('models/AddressModel.php');
 include('models/OrderDataModel.php');
 include('models/UserModel.php');
 
-$data = [];
 $data['isValidationSucceed'] = true;
 $data['msg'] = "";
 $data['orderNumber'] = "";
 
-validate($data);
+validate();
 
 if($data['isValidationSucceed'] == true){
 
     $conn = mysqli_connect("localhost", "root", "", "smartbees_zadanie_db");
+
     $userId = null;
   
-    $user_personal_data = new PersonalDataModel(0, $_POST['firstname'], $_POST['lastname'], $_POST['telephone']);
-    $sql = "insert into personal_data (first_name, last_name, phone_number) values ('".$user_personal_data->getFirstName()."','".$user_personal_data->getLastName()."','".$user_personal_data->getPhoneNumber()."')";  
-    $result = mysqli_query($conn, $sql);
-    $user_personal_data->setId(mysqli_insert_id($conn));
+    $personal_data = new PersonalDataModel
+    (
+        0, 
+        $_POST['firstname'], 
+        $_POST['lastname'], 
+        $_POST['telephone']
+    );
+    $personal_data->insertIntoDB($conn);
+    $personal_data->setId(mysqli_insert_id($conn));
 
-    $user_address = new AddressModel(0, $_POST['country'], $_POST['address'], $_POST['postcode'], $_POST['city']);      
-    $sql = "insert into address (country, street, post_code, city) values ('".$user_address->getCountry()."','".$user_address->getStreet()."','".$user_address->getPostCode()."','".$user_address->getCity()."')";      
-    $result = mysqli_query($conn, $sql);
-    $user_address->setId(mysqli_insert_id($conn));
+    $address = new AddressModel
+    (
+        0, 
+        $_POST['country'], 
+        $_POST['address'], 
+        $_POST['postcode'], 
+        $_POST['city']
+    );      
+    $address->insertIntoDB($conn);
+    $address->setId(mysqli_insert_id($conn));
 
     if(isset($_SESSION['user_id'])){
         $userId = $_SESSION['user_id'];
     }
     else if($_POST['createnewaccount'] === 'true'){
-        $user = new UserModel(0, $_POST['login'], $_POST['pass'], $user_personal_data->getId(), $user_address->getId(), $_POST['getnewsletter']);
-        $sql = "insert into user (login, password, default_personal_data_id, default_address_id, signed_to_newsletter) values ('".$user->getLogin()."','".$user->getPassword()."','".$user->getDefaultPersonalDataId()."','".$user->getDefaultAddressId()."','".$user->getSignedToNewsletter()."')";      
-        $result = mysqli_query($conn, $sql);
+        $user = new UserModel
+        (
+            0, 
+            $_POST['login'], 
+            $_POST['pass'], 
+            $personal_data->getId(), 
+            $address->getId(), 
+            $_POST['getnewsletter']
+        );
+        $user->insertIntoDB($conn);
         $user->setId(mysqli_insert_id($conn));
         $userId = $user->getId();    
     }
     
-    $order_data = new OrderDataModel(0, (10000 + mysqli_insert_id($conn)), $userId, $user_personal_data->getId(), $user_address->getId(), $_POST['deliverymethod'], $_POST['paymentmethod'], $_POST['comment']);
-    $sql = "insert into order_data (order_number, user_id, personal_data_id, address_id, delivery_method_id, payment_method_id, comment) values ('".$order_data->getOrderNumber()."','".$order_data->getUserId()."','".$order_data->getPersonalDataId()."','".$order_data->getAddressId()."','".$order_data->getDeliveryMethodId()."','".$order_data->getPaymentMethodId()."','".$order_data->getComment()."')";      
-    $result = mysqli_query($conn, $sql);
-    $order_data->setId(mysqli_insert_id($conn));
-
-    $data['orderNumber'] = $order_data->getOrderNumber(); 
+    $order = new OrderDataModel
+    (
+        0, 
+        (10000 + mysqli_insert_id($conn)), 
+        $userId, 
+        $personal_data->getId(), 
+        $address->getId(), 
+        $_POST['deliverymethod'], 
+        $_POST['paymentmethod'], 
+        $_POST['comment']
+    );
+    $order->insertIntoDB($conn);
+    $order->setId(mysqli_insert_id($conn));
+    $order->setItemSet($_POST['items']);
+    $order->defineOrderTotalPrice($conn, $_POST['discountcode']);
+    $order->addItemsToOrder($conn);
+    $order->updateDbOrderPrice($conn);
+    
+    $data['order_price'] = $order->getTotalPrice();
+    $data['orderNumber'] = $order->getOrderNumber();
 
     session_unset();
 }
 
 echo(json_encode($data));
 
-function validate(&$data)
+function validate()
 {
+    global $data;
+
     if($_POST['createnewaccount'] === 'true'){
 
         if(!preg_match('/[a-zA-Z0-9 ]{5,32}/', $_POST['login'])){
@@ -109,5 +143,4 @@ function validate(&$data)
         }
     }
 }
-
 ?>

@@ -19,6 +19,16 @@ class UserModel {
             $this-> signed_to_newsletter = 0;
         }
     }
+    function insertIntoDB($conn){
+        $sql = "insert into user (login, password, default_personal_data_id,".
+         "default_address_id, signed_to_newsletter) values ('".$this->login.
+         "','".$this->password."','".$this->default_personal_data_id.
+         "','".$this->default_address_id."','".$this->signed_to_newsletter."')";    
+           
+        $result = mysqli_query($conn, $sql);
+
+        return $result;
+    }
     function getId() {
         return $this->id;
     }

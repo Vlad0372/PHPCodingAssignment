@@ -11,6 +11,17 @@ class PersonalDataModel {
         $this->last_name = $last_name;
         $this->phone_number = $phone_number;
     }
+    function insertIntoDB($conn){
+
+        $sql = "insert into personal_data (first_name, last_name, phone_number)".
+        " values ('".$this->first_name.
+        "','".$this->last_name."','".
+        $this->phone_number."')";  
+
+        $result = mysqli_query($conn, $sql);
+
+        return $result;
+    }
     function getId() {
         return $this->id;
     }
