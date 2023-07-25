@@ -1,6 +1,26 @@
 # smartbees-zadanie
 apache / php 7.3 / mysql
 
+### 26.07 update (poprawki)
+---
+
++ Połączenie z bazą danych teraz się znajduje w jednym miejscu - "connection.php"
++ Zostały usunięte console.logi w tym komentowane. Komentarze w pliku .css też
++ Odznaczanie comboboxa "Dostawa pod inny adres" teraz wraca dane użytkownika
++ Usunięta możliwość tworzenia kont o jednakowym loginem
++ Hasła teraz są przechowywane w bazie jako szyfrowane
++ Suma częściowa i łączna teraz działają poprawnie (jeśli w ogóle dobrze zrozumiałem jak to musi działać)
+
+Zmiany, poza uwagami:
++ Dodałem do tabeli "order_data" nummable kolumnę "discount_code" aby można było zrozumieć, z czego wynika taka cena.
+   jeśli nie podamy kodu rabatowego, lub będzie on nie aktywny, ta kolumna będzie miała wartość 0.
+
+ Pod pytaniem się został tylko problem z tabelą "order_data". W moim przypadku, po wyświetleniu okna z kodem zamówienia
+ do bazy przypisują się dane (działało nawet przed wszystkimi poprawkami) poniżej dołączam screena z bazy:
+
+
+ ![order_data](/images/order_data.png)
+
 ### 24.07 update 
 ---
 
