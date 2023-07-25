@@ -1,22 +1,26 @@
-# smartbees-zadanie
+# smartbees-zadanie-rozszerzone
 apache / php 7.3 / mysql
 
 ### 26.07 update (poprawki)
 ---
 
 + Połączenie z bazą danych teraz się znajduje w jednym miejscu - "connection.php"
-+ Zostały usunięte console.logi w tym komentowane. Komentarze w pliku .css też
++ Zostały usunięte console.logi w tym komentowane. Komentarze w pliku styles.css też
 + Odznaczanie comboboxa "Dostawa pod inny adres" teraz wraca dane użytkownika
 + Usunięta możliwość tworzenia kont o jednakowym loginem
 + Hasła teraz są przechowywane w bazie jako szyfrowane
 + Suma częściowa i łączna teraz działają poprawnie (jeśli w ogóle dobrze zrozumiałem jak to musi działać)
 
-Zmiany, poza uwagami:
-+ Dodałem do tabeli "order_data" nummable kolumnę "discount_code" aby można było zrozumieć, z czego wynika taka cena.
-   jeśli nie podamy kodu rabatowego, lub będzie on nie aktywny, ta kolumna będzie miała wartość 0.
+Zmiany poza uwagami:
++ Dodałem do tabeli "order_data" nullable kolumnę "discount_code" aby można było zrozumieć, z czego wynika taka cena.
+   jeśli nie podamy kodu rabatowego lub będzie on nieaktywny, kolumna będzie miała wartość 0.
++ Zmieniłem sposób tworzenia numeru zamówienia. Teraz podstawą numeru służy liczba 10000 + autoinkrementowane id tabeli "personal_data"
++ Dodatkowo trochę zrefaktoryzowałem kod, nic globalnego lub ciekawego
 
- Pod pytaniem się został tylko problem z tabelą "order_data". W moim przypadku, po wyświetleniu okna z kodem zamówienia
- do bazy przypisują się dane (działało nawet przed wszystkimi poprawkami) poniżej dołączam screena z bazy:
+ Pod pytaniem się został tylko problem z niewypełnieniem tabeli "order_data" przy zamówieniu. W moim przypadku, po wyświetleniu okna z kodem zamówienia
+ do bazy przypisują się dane (działało nawet przed wszystkimi poprawkami). Robiłem zamówienie jako użytkownik niezalogowany, jako
+ nizalogowany + tworzenie konta oraz jako zalogowany (podejrzewam, że może to zależeć od wprowadzonych danych, że niby walidują się dobrze,
+ tylko nie uwzględniłem to w typach i/lub w rozmiarach typów danych kolumn tabeli "order_data"). Poniżej dołączam screena z bazy:
 
 
  ![order_data](/images/order_data.png)
