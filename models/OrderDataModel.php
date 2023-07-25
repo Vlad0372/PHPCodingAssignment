@@ -7,11 +7,12 @@ class OrderDataModel {
     public $address_id;
     public $delivery_method_id;
     public $payment_method_id;
+    public $discount_code;
     public $total_price;
     public $comment;
     private $items;
 
-    function __construct($id, $order_number, $user_id, $personal_data_id, $address_id, $delivery_method_id, $payment_method_id, $comment) {
+    function __construct($id, $order_number, $user_id, $personal_data_id, $address_id, $delivery_method_id, $payment_method_id, $discount_code, $comment) {
         $this->id = $id;
         $this->order_number = $order_number;
         $this->user_id = $user_id;
@@ -19,6 +20,7 @@ class OrderDataModel {
         $this->address_id = $address_id;
         $this->delivery_method_id = $delivery_method_id;
         $this->payment_method_id = $payment_method_id;
+        $this->discount_code = $discount_code;
         $this->total_price = 0.00;
         $this->comment = $comment;
         $this->items = [];
@@ -31,7 +33,7 @@ class OrderDataModel {
         
         return $result;
     }
-    function defineOrderTotalPrice($conn, $discount_code)
+    function defineOrderTotalPrice($conn)
     {
         $records = $this->getItemsFromDB($conn);
 
@@ -46,7 +48,7 @@ class OrderDataModel {
             }
         }
 
-        $this->applyDiscount($discount_code, $conn);
+        $this->applyDiscount($this->discount_code, $conn);
         $this->applyDeliveryPayment($conn);
     
         $this->total_price = round($this->total_price, 2);
@@ -128,12 +130,20 @@ class OrderDataModel {
         $this->items = $items;
     }
     function insertIntoDB($conn){
+
+        $sql = "select * from discount_code where code = '" . $this->discount_code . "' and is_active = 1";
+        $result = mysqli_query($conn, $sql);
+        
+        if(mysqli_num_rows($result) == 0){
+            $this->discount_code = 0;
+        }
+
         $sql = "insert into order_data (order_number, user_id, personal_data_id,".
-         "address_id, delivery_method_id, payment_method_id, comment) values ('".
+         "address_id, delivery_method_id, discount_code, payment_method_id, comment) values ('".
          $this->order_number."','".$this->user_id."','".
          $this->personal_data_id."','".$this->address_id."','".
-         $this->delivery_method_id."','".$this->payment_method_id.
-         "','".$this->comment."')";   
+         $this->delivery_method_id."','".$this->discount_code."','".
+         $this->payment_method_id."','".$this->comment."')";   
 
         $result = mysqli_query($conn, $sql);
         
@@ -168,6 +178,9 @@ class OrderDataModel {
     }
     function getPaymentMethodId() {
         return $this->payment_method_id;
+    }
+    function getDiscountCodeName() {
+        return $this->discount_code;
     }
     function getTotalPrice() {
         return $this->total_price;

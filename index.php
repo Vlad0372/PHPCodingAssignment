@@ -67,7 +67,7 @@
             </form>
 
             <div class="differentAddressCheckBox">
-                <input type="checkbox" id="differentAddressCheckBox" name="differentAddressCheckBox" onclick="clearAddressData()">
+                <input type="checkbox" id="differentAddressCheckBox" name="differentAddressCheckBox" onclick="toggleAddressData()">
                 <p>Dostawa pod inny adres</p>
             </div>                          
         </div>

@@ -1,11 +1,23 @@
-let orderPrice = 0.0;
+let orderTotalPrice = 0.0;
+let orderPartialPrice = 0.0;
 let deliveryPrices = [];
 let deliveryMethod = 0;
+const deliveryMethods = [
+    { id: 1 },
+    { id: 2 },
+    { id: 3 }
+];
 const items = [
     { id: 1, amount: 1 },
     { id: 2, amount: 2 },
     { id: 3, amount: 5 }
-  ];
+];
+let userAddress = { 
+    country: "",
+    steet: "", 
+    postCode: "",
+    city: "" 
+};
 
 $(document).ready(function () {
     loadDeliveryMethods();
@@ -43,23 +55,10 @@ function activateDiscountCode(){
             button.css("border-color", "rgb(168,159,143)");
             button.text("Kod aktywowany");
             button.prop( "onclick", null );
-                
-            let discount = 0;
 
-            //jeśli jest wybrany sposób dostawy - cena dostawy nie podlega zniżce
-            if(deliveryMethod == 0){
-                discount = (orderPrice  * (parseInt(returnedData.discount_percentage) / 100));
-
-                changeOrderPrice(-discount);
-            }
-            else{
-                changeOrderPrice(-deliveryPrices[deliveryMethod - 1]);
-                
-                discount = (orderPrice  * (parseInt(returnedData.discount_percentage) / 100));            
-                
-                changeOrderPrice(-discount);
-                changeOrderPrice(deliveryPrices[deliveryMethod - 1]);
-            }
+            let discount = (orderPartialPrice  * (parseInt(returnedData.discount_percentage) / 100));
+            changeOrderPartialPrice(-discount);
+            changeOrderTotalPrice();
             
             let discountLabel = $("<p></p>");
             discountLabel.css("margin-top", "5px");
@@ -78,11 +77,6 @@ function activateDiscountCode(){
 }
 
 function loadDeliveryMethods(){
-    const deliveryMethods = [
-        { id: 1 },
-        { id: 2 },
-        { id: 3 }
-    ];
 
     $.get("load_delivery_methods.php",
     { 
@@ -92,23 +86,25 @@ function loadDeliveryMethods(){
     {
         const returnedData = JSON.parse(data);
 
-        $(returnedData.delivery_method_id_list).each(function(i, e) {
-            var j = returnedData.delivery_method_id_list.length - 1 - i;
-
-            $(
-                '<div class="deliveryMethod"><div>'+
-                '<input type="radio" id="deliveryMethod' + returnedData.delivery_method_id_list[j] + 
-                '" name="deliveryMethodRadio" value="' + returnedData.delivery_method_id_list[j] + 
-                '" form="userDataForm" onclick="matchPaymentMethods(' + returnedData.delivery_method_id_list[j] + 
-                ')"><img src="delivery_method_images/' + returnedData.delivery_method_file_name_list[j] + 
-                '" alt="Metoda dostawy" width="50" height="30"><label for="deliveryMethod' + 
-                returnedData.delivery_method_id_list[j] + '">' + returnedData.delivery_method_name_list[j] + 
-                '</label></div><p>' + returnedData.delivery_method_price_list[j] + ' zł</p></div>'
-
-            ).insertAfter(".deliveryMethodLabel");
-
-            deliveryPrices[j] = returnedData.delivery_method_price_list[j];
-        });    
+        if(returnedData.isLoadingSucceed){
+            $(returnedData.delivery_method_id_list).each(function(i, e) {
+                var j = returnedData.delivery_method_id_list.length - 1 - i;
+    
+                $(
+                    '<div class="deliveryMethod"><div>'+
+                    '<input type="radio" id="deliveryMethod' + returnedData.delivery_method_id_list[j] + 
+                    '" name="deliveryMethodRadio" value="' + returnedData.delivery_method_id_list[j] + 
+                    '" form="userDataForm" onclick="matchPaymentMethods(' + returnedData.delivery_method_id_list[j] + 
+                    ')"><img src="delivery_method_images/' + returnedData.delivery_method_file_name_list[j] + 
+                    '" alt="Metoda dostawy" width="50" height="30"><label for="deliveryMethod' + 
+                    returnedData.delivery_method_id_list[j] + '">' + returnedData.delivery_method_name_list[j] + 
+                    '</label></div><p>' + returnedData.delivery_method_price_list[j] + ' zł</p></div>'
+    
+                ).insertAfter(".deliveryMethodLabel");
+    
+                deliveryPrices[j] = returnedData.delivery_method_price_list[j];
+            }); 
+        }          
     });
 }
 
@@ -122,32 +118,46 @@ function loadItems(){
     {
         const returnedData = JSON.parse(data);
 
-        $(returnedData.item_id_list).each(function(i, e) {
-            $(
-                '<div class="productInfo"><div class="productImg">'+
-                '<img src="item_images/' + returnedData.item_file_name_list[i] + '" alt="item"></div>'+
-                '<div class="productDetails"><p class="productName">' + returnedData.item_name_list[i] +    
-                '</p> <p>Ilość: ' + returnedData.item_amount_list[i] + '</p></div>'+
-                '<div class="productPrice"><p>' + returnedData.item_price_list[i] + ' zł</p></div></div>'
-            ).insertBefore(".orderPriceContainer");
-        });    
-        
-        let priceSumm = 0.0;
-
-        for(let i = 0; i < returnedData.item_id_list.length; i++){
-            priceSumm += (parseFloat(returnedData.item_price_list[i]) * parseInt(returnedData.item_amount_list[i]));
+        if(returnedData.isLoadingSucceed){
+            $(returnedData.item_id_list).each(function(i, e) {
+                $(
+                    '<div class="productInfo"><div class="productImg">'+
+                    '<img src="item_images/' + returnedData.item_file_name_list[i] + '" alt="item"></div>'+
+                    '<div class="productDetails"><p class="productName">' + returnedData.item_name_list[i] +    
+                    '</p> <p>Ilość: ' + returnedData.item_amount_list[i] + '</p></div>'+
+                    '<div class="productPrice"><p>' + returnedData.item_price_list[i] + ' zł</p></div></div>'
+                ).insertBefore(".orderPriceContainer");
+            });    
+            
+            let priceSumm = 0.0;
+    
+            for(let i = 0; i < returnedData.item_id_list.length; i++){
+                priceSumm += (parseFloat(returnedData.item_price_list[i]) * parseInt(returnedData.item_amount_list[i]));
+            }
+    
+            changeOrderPartialPrice(priceSumm);
+            changeOrderTotalPrice();
         }
-
-        changeOrderPrice(priceSumm);
+        
     });
 }
 
-function changeOrderPrice(value){
-    orderPrice += parseFloat(value);
-    orderPrice = Number(orderPrice.toFixed(2));
+function changeOrderPartialPrice(value){
+    orderPartialPrice += parseFloat(value);
+    orderPartialPrice = Number(orderPartialPrice.toFixed(2));
 
-    $(".partialPrice").find("p").eq(1).text(orderPrice + " zł");
-    $(".totalPrice").find("p").eq(1).text(orderPrice + " zł");
+    $(".partialPrice").find("p").eq(1).text(orderPartialPrice + " zł");
+}
+
+function changeOrderTotalPrice(){
+    orderTotalPrice = orderPartialPrice;
+    
+    if(deliveryMethod != 0){
+        orderTotalPrice += parseFloat(deliveryPrices[deliveryMethod - 1]);
+        orderTotalPrice = Number(orderTotalPrice.toFixed(2));
+    }
+
+    $(".totalPrice").find("p").eq(1).text(orderTotalPrice + " zł");
 }
 
 function submitUserDataForm(event){
@@ -259,11 +269,9 @@ function submitUserDataForm(event){
                 discountcode:discountcode,
                 items:items
             }, 
-            function(data, status){
-                console.log(data);
+            function(data){
                 const returnedData = JSON.parse(data);
 
-                console.log(returnedData);
                 if(returnedData.isValidationSucceed){
                     showOrderInfo(returnedData.orderNumber);
                 }
@@ -280,18 +288,15 @@ function submitUserLoginForm(event){
     let login = $("#userlogin").val();
     let pass = $("#userpass").val();
 
-    // console.log(login);
-    // console.log(pass);
     $.post("login.php", 
     {
         login:login,
         pass:pass,                   
     }, 
-    function(data, status){
-        //console.log(data);
+    function(data){
+
         const returnedData = JSON.parse(data);
 
-        //console.log(returnedData);
         if(returnedData.isValidationSucceed){
             showSuccessMessage(returnedData.msg);
 
@@ -302,10 +307,16 @@ function submitUserLoginForm(event){
 
             $("#firstName").val(returnedData.first_name);
             $("#lastName").val(returnedData.last_name);
+            $("#country").val(returnedData.country);
             $("#address").val(returnedData.street);
             $("#postCode").val(returnedData.post_code);
             $("#city").val(returnedData.city);
             $("#telephone").val(returnedData.phone_number);
+
+            userAddress.country = returnedData.country;
+            userAddress.steet = returnedData.street;
+            userAddress.postCode = returnedData.post_code;
+            userAddress.city = returnedData.city;
 
             closeLoginContainer();
         }
@@ -315,7 +326,7 @@ function submitUserLoginForm(event){
     })  
 }
 
-function stopPropagationBackground(event) {
+function stopPropagationBackground(event){
     event.stopPropagation();
 }
 
@@ -327,7 +338,7 @@ function showErrorMessage(msg){
         .css("background-color", "rgb(227,67,67)")
         .hide()
         .fadeIn('normal')
-        .delay(1500)
+        .delay(2500)
         .fadeOut();
 }
 
@@ -339,7 +350,7 @@ function showSuccessMessage(msg){
         .css("background-color", "rgb(106,227,124)")
         .hide()
         .fadeIn('normal')
-        .delay(1500)
+        .delay(2500)
         .fadeOut();
 }
 
@@ -368,19 +379,19 @@ function showHideLoginFields(){
     }   
 }
 
-function clearAddressData(){
-    let newAddressCheckBox = document.getElementById("differentAddressCheckBox");
+function toggleAddressData(){
+    if($('#differentAddressCheckBox')[0].checked){
 
-    let countryField = document.getElementById("country");
-    let addressField = document.getElementById("address");
-    let postCodeField = document.getElementById("postCode");
-    let cityField = document.getElementById("city");
-
-    if(newAddressCheckBox.checked){
-        countryField.value = 'poland';
-        addressField.value = "";
-        postCodeField.value = "";
-        cityField.value = "";
+        $("#country").val("poland");
+        $("#address").val("");
+        $("#postCode").val("");
+        $("#city").val("");
+    }
+    else{
+        $("#country").val(userAddress.country);
+        $("#address").val(userAddress.steet);
+        $("#postCode").val(userAddress.postCode);
+        $("#city").val(userAddress.city);
     }   
 }
 
@@ -389,10 +400,6 @@ function matchPaymentMethods(callerMethod){
     let paymentMethod1 = $(".paymentMethod1").first();
     let paymentMethod2 = $(".paymentMethod2").first();
     let paymentMethod3 = $(".paymentMethod3").first();
-
-    if(deliveryMethod != 0){
-        changeOrderPrice(-deliveryPrices[deliveryMethod - 1]);
-    }
 
     switch(callerMethod){
         case 1:
@@ -418,7 +425,7 @@ function matchPaymentMethods(callerMethod){
             break;
     }
 
-    changeOrderPrice(deliveryPrices[deliveryMethod - 1]);
+    changeOrderTotalPrice();
 }
 
 function openLoginContainer(){

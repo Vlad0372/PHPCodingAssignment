@@ -20,9 +20,11 @@ class UserModel {
         }
     }
     function insertIntoDB($conn){
+        $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+
         $sql = "insert into user (login, password, default_personal_data_id,".
          "default_address_id, signed_to_newsletter) values ('".$this->login.
-         "','".$this->password."','".$this->default_personal_data_id.
+         "','".$hashedPassword."','".$this->default_personal_data_id.
          "','".$this->default_address_id."','".$this->signed_to_newsletter."')";    
            
         $result = mysqli_query($conn, $sql);
